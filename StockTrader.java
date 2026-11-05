@@ -16,7 +16,10 @@ public class StockTrader {
 
         // TODO: call loadData, then printData
         loadData(in,year,month,price);
-        printData(year,month,price);
+        //printData(year,month,price);
+        System.out.printf("TINY lowest: $%.2f in %s %d%n", price[indexOfLowest(price)], monthName(indexOfLowest(price)),year[indexOfLowest(price)]);
+        System.out.printf("TINY highest: $%.2f in %s %d%n", price[indexOfHighest(price)], monthName(indexOfHighest(price)),year[indexOfHighest(price)]);
+        System.out.printf("TINY largest drop: %s %d%n", monthName(indexOfBiggestDrop(price)), year[indexOfBiggestDrop(price)]);
     }
     public static void loadData(Scanner in, int[] years, int[] months, double[] prices) {
         for (int i = 0; i < years.length; i++) {
@@ -34,4 +37,41 @@ public class StockTrader {
             System.out.printf("%d %s $%.2f%n", years[i], monthName(i), prices[i]);
         }
     }
+    public static int indexOfLowest(double[] prices){
+		//double next=0;
+		//double low=in.nextDouble();
+		double low=prices[0];
+		int index=0;
+		for(int i=0; i<prices.length;i++){
+			if(low>prices[i]){
+				index=i;
+				low=prices[i];
+			}
+		}
+		return index;
+	}
+	public static int indexOfHighest(double[] prices){
+		double high=prices[0];
+		int index=0;
+		for(int i=0; i<prices.length;i++){
+			if(high<prices[i]){
+				index=i;
+				high=prices[i];
+			}
+		}
+		return index;
+	}
+	public static int indexOfBiggestDrop(double[] prices){
+		double drop=0.0;
+		int index=0;
+		double change=0;
+		for(int i=1; i<prices.length;i++){
+			change=100*(prices[i]-prices[i-1])/prices[i-1];
+			if(drop>change){
+				index=i;
+				drop=change;
+			}
+		}
+		return index;
+	}
 }
